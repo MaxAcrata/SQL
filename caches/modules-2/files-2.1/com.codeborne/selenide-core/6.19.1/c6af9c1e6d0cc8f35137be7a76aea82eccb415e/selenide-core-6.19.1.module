@@ -1,0 +1,206 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.codeborne",
+    "module": "selenide-core",
+    "version": "6.19.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.seleniumhq.selenium",
+          "module": "selenium-java",
+          "version": {
+            "requires": "4.13.0"
+          },
+          "excludes": [
+            {
+              "group": "org.slf4j",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "2.0.9"
+          }
+        },
+        {
+          "group": "org.opentest4j",
+          "module": "opentest4j",
+          "version": {
+            "requires": "1.3.0"
+          }
+        }
+      ],
+      "dependencyConstraints": [
+        {
+          "group": "com.fasterxml.jackson.core",
+          "module": "jackson-core",
+          "version": {
+            "requires": "2.15.3"
+          },
+          "reason": "used by browserup-proxy"
+        }
+      ],
+      "files": [
+        {
+          "name": "selenide-core-6.19.1.jar",
+          "url": "selenide-core-6.19.1.jar",
+          "size": 600614,
+          "sha512": "b0bf761c4dd9f18e337f6eea365ad3880b18a52e7ebf317959f1617e1c5551081b6bd6b3e88e605a4469f6bfa4e69253e7f67d1a0c66113dcfcc08fd1104ca42",
+          "sha256": "5e5f018d324c2525983bc14c6f8400a2a001cbf0d0fd5c30d9ea28f2fa77c689",
+          "sha1": "308e55c332289f9d9cfe6e5cd778ab0848721c5b",
+          "md5": "2495f7158b222553240ab4473d4b4af5"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "32.1.3-jre"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.13.0"
+          }
+        },
+        {
+          "group": "commons-io",
+          "module": "commons-io",
+          "version": {
+            "requires": "2.14.0"
+          }
+        },
+        {
+          "group": "org.apache.httpcomponents.client5",
+          "module": "httpclient5",
+          "version": {
+            "requires": "5.2.1"
+          }
+        },
+        {
+          "group": "org.seleniumhq.selenium",
+          "module": "selenium-java",
+          "version": {
+            "requires": "4.13.0"
+          },
+          "excludes": [
+            {
+              "group": "org.slf4j",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "2.0.9"
+          }
+        },
+        {
+          "group": "org.opentest4j",
+          "module": "opentest4j",
+          "version": {
+            "requires": "1.3.0"
+          }
+        }
+      ],
+      "dependencyConstraints": [
+        {
+          "group": "com.fasterxml.jackson.core",
+          "module": "jackson-core",
+          "version": {
+            "requires": "2.15.3"
+          },
+          "reason": "used by browserup-proxy"
+        }
+      ],
+      "files": [
+        {
+          "name": "selenide-core-6.19.1.jar",
+          "url": "selenide-core-6.19.1.jar",
+          "size": 600614,
+          "sha512": "b0bf761c4dd9f18e337f6eea365ad3880b18a52e7ebf317959f1617e1c5551081b6bd6b3e88e605a4469f6bfa4e69253e7f67d1a0c66113dcfcc08fd1104ca42",
+          "sha256": "5e5f018d324c2525983bc14c6f8400a2a001cbf0d0fd5c30d9ea28f2fa77c689",
+          "sha1": "308e55c332289f9d9cfe6e5cd778ab0848721c5b",
+          "md5": "2495f7158b222553240ab4473d4b4af5"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "selenide-core-6.19.1-javadoc.jar",
+          "url": "selenide-core-6.19.1-javadoc.jar",
+          "size": 1390883,
+          "sha512": "56a6be4302a8659ef75e08baaf7743b2ce9e56078eb0e4a7079ab71a76f22aa9f4467232144a57829639f449e7bcbf1b4cb49dca18fd8c098b92df39c023c53a",
+          "sha256": "3bc2edb763e4c95ac1ac156446d4dd7ac9509402d87fcf5455d942b1a7d11bb2",
+          "sha1": "4b0986d545527ad4ffb16961b9a0f1fa7ec008e3",
+          "md5": "873ea012189d7975eb3a94522325eb66"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "selenide-core-6.19.1-sources.jar",
+          "url": "selenide-core-6.19.1-sources.jar",
+          "size": 325736,
+          "sha512": "2e98218d856aa1e726e428a3a5082f8c3513cae419586c661a9f27d09ed4cd07c27e21d1f013ff5a030d9b0e75493a162584560c1ab6e32a3ec7a31f945a0833",
+          "sha256": "d9674790ed8c56b90c6149ef6d32abebfb3a8f02db20c7d773abd0604fc8e25f",
+          "sha1": "8bcc75ad0744d69680fcdc16cc657e85cd165513",
+          "md5": "c1741a87ed5c882dd26b17135ce63c52"
+        }
+      ]
+    }
+  ]
+}
