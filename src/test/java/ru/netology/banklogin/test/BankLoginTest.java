@@ -7,65 +7,51 @@ import ru.netology.banklogin.page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.netology.banklogin.data.SQLHelper.cleanAuthCodes;
-
-// docker compose exec mysql mysql -u app -p app
-// java -jar ./app-deadline.jar
-
 
 public class BankLoginTest {
     LoginPage loginPage;
 
     @BeforeEach
     void setUp() {
-
-        SQLHelper.cleanAuthCodes(); // очищаем только коды
+        SQLHelper.resetUserStatus("vasya"); // Сброс статуса
+        SQLHelper.createTestUser(); // Создание пользователя
         loginPage = open("http://localhost:9999", LoginPage.class);
     }
 
-
-    @AfterEach
-    void tearDown() {
-        // Удаление auth-кодов из базы данных после каждого теста.
-        // Это гарантирует, что коды не будут мешать последующим тестам.
-        cleanAuthCodes();
+    @AfterAll
+    static void tearDownAll() {
+        SQLHelper.cleanDatabase();
     }
-
-    /**
-     * Тест: Успешный вход в систему с валидными учетными данными.
-     * Проверяет корректное прохождение авторизации и верификации.
-     */
 
     @Test
     void shouldLoginSuccessfully() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
-
         var verificationCode = SQLHelper.getVerificationCode();
-        verificationPage.validVerify(String.valueOf(verificationCode));
+        verificationPage.validVerify(verificationCode);
     }
 
-    /**
-     * Тест: Блокировка пользователя после трех неудачных попыток ввода пароля.
-     * Проверяет механизм блокировки пользователя при превышении количества неверных попыток.
-     */
     @Test
     void shouldBlockUserAfterThreeInvalidPasswordAttempts() {
-        var validAuthInfo = DataHelper.getAuthInfoWithTestData();
-        var invalidPassword = "wrongness";
+        var invalidAuthInfo = DataHelper.getInvalidAuthInfo();
 
-        // 3 попытки входа с неправильным паролем
-        for (int i = 0; i < 3; i++) {
-            loginPage.validLogin(new DataHelper.AuthInfo(validAuthInfo.getLogin(), invalidPassword));
+        for (int i = 1; i <= 3; i++) {
+            loginPage.invalidLogin(invalidAuthInfo);
             loginPage.verifyErrorNotification("Ошибка! Неверно указан логин или пароль");
+
+            // Проверка статуса после каждой попытки
+            if (i < 3) {
+                assertEquals("active", SQLHelper.getUserStatus("vasya"),
+                        "Ошибка! Неверно указан логин или пароль");
+            } else {
+                assertEquals("blocked", SQLHelper.getUserStatus("vasya"),
+                        "Пользователь заблокирован после 3 попыток неверного ввода ");
+            }
+
+            loginPage.clearFields();
+
+            // Явная проверка очистки полей
+            loginPage.verifyFieldsAreEmpty();
         }
-
-        // 4-я попытка с правильным паролем — пользователь уже заблокирован
-        loginPage.validLogin(validAuthInfo);
-        loginPage.verifyErrorNotification("Пользователь заблокирован");
-
-        // Проверяем статус пользователя в БД
-        var status = SQLHelper.getUserStatus("vasya");
-        assertEquals("blocked", status);
     }
 }

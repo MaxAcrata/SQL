@@ -10,43 +10,38 @@ import java.util.Locale;
 
 public class DataHelper {
     private static final Faker FAKER = new Faker(new Locale("en"));
+    private static final String VALID_PASSWORD = "qwerty123";
 
     private DataHelper() {
-
     }
 
-    /**
-     * Возвращает объект AuthInfo с предопределенными тестовыми данными.
-     * Эти данные должны быть известны и присутствовать в тестовой базе данных.
-     *
-     * @return AuthInfo объект с логином "vasya" и паролем "qwerty123".
-     */
     public static AuthInfo getAuthInfoWithTestData() {
-        return new AuthInfo("vasya", "qwerty123");
+        return new AuthInfo("vasya", VALID_PASSWORD);
     }
 
-    private static String generateRandomLogin() {
-        return FAKER.name().username();
+    public static AuthInfo getInvalidAuthInfo() {
+        String invalidPassword;
+        // Генерируем пароль до тех пор, пока не получим отличный от валидного
+        do {
+            invalidPassword = generateRandomPassword();
+        } while (invalidPassword.equals(VALID_PASSWORD));
 
+        return new AuthInfo("vasya", invalidPassword);
     }
 
-    private static String generateRandomPassword() {
-        return FAKER.internet().password();
 
+    public static String generateRandomPassword() {
+        return FAKER.internet().password(8, 16, true, true);
     }
-
 
     public static VerificationCode generateRandomVerificationCode() {
         return new VerificationCode(FAKER.numerify("#####"));
-
-
     }
 
     @Value
     public static class AuthInfo {
         String login;
         String password;
-
     }
 
     @Data
@@ -55,5 +50,4 @@ public class DataHelper {
     public static class VerificationCode {
         String code;
     }
-
 }
