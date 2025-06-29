@@ -13,47 +13,21 @@ import static com.codeborne.selenide.Selenide.$;
 public class LoginPage {
 
     // Локаторы элементов
-    private final SelenideElement loginField = $("[data-test-id=login] input");
-    private final SelenideElement passwordField = $("[data-test-id=password] input");
+    private final SelenideElement loginField = $("[data-test-id=login] input").shouldBe(Condition.editable);
+    private final SelenideElement passwordField = $("[data-test-id=password] input").shouldBe(Condition.editable);
     private final SelenideElement loginButton = $("[data-test-id=action-login]");
     private final SelenideElement errorNotification = $("[data-test-id='error-notification'] .notification__content");
 
     /**
-     * Выполняет успешный вход с валидными учетными данными.
+     * Выполняет ввод логина, пароля и отправку формы.
      *
-     * @param info объект с валидным логином и паролем
-     * @return новая страница верификации
+     * @param info объект с логином и паролем
      */
-    public VerificationPage validLogin(DataHelper.AuthInfo info) {
-        enterCredentials(info);
-        return new VerificationPage();
-    }
-
-    /**
-     * Выполняет попытку входа с неверным паролем, но корректным логином.
-     *
-     * @param info объект с валидным логином и невалидным паролем
-     */
-    public void loginWithInvalidPassword(DataHelper.AuthInfo info) {
-        enterCredentials(info);
-    }
-
-    /**
-     * Выполняет попытку входа с неверным логином, но корректным паролем.
-     *
-     * @param info объект с невалидным логином и валидным паролем
-     */
-    public void loginWithInvalidLogin(DataHelper.AuthInfo info) {
-        enterCredentials(info);
-    }
-
-    /**
-     * Выполняет попытку входа с невалидным логином и паролем.
-     *
-     * @param info объект с невалидным логином и паролем
-     */
-    public void loginWithInvalidBoth(DataHelper.AuthInfo info) {
-        enterCredentials(info);
+    public void login(DataHelper.AuthInfo info) {
+        clearFields();
+        loginField.setValue(info.getLogin());
+        passwordField.setValue(info.getPassword());
+        loginButton.click();
     }
 
     /**
@@ -67,22 +41,10 @@ public class LoginPage {
     }
 
     /**
-     * Очищает поля ввода логина и пароля перед следующей попыткой.
+     * Очищает поля ввода логина и пароля.
      */
     public void clearFields() {
         loginField.clear();
         passwordField.clear();
-    }
-
-    /**
-     * Вводит учетные данные в соответствующие поля формы.
-     *
-     * @param info объект с логином и паролем
-     */
-    private void enterCredentials(DataHelper.AuthInfo info) {
-        clearFields();
-        loginField.setValue(info.getLogin());
-        passwordField.setValue(info.getPassword());
-        loginButton.click();
     }
 }
