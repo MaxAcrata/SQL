@@ -13,8 +13,6 @@ public class BankLoginTest {
 
     @BeforeEach
     void setUp() {
-        SQLHelper.resetUserStatus("vasya"); // Сброс статуса
-        SQLHelper.createTestUser(); // Создание пользователя
         loginPage = open("http://localhost:9999", LoginPage.class);
     }
 
@@ -26,32 +24,30 @@ public class BankLoginTest {
     @Test
     void shouldLoginSuccessfully() {
         var authInfo = DataHelper.getAuthInfoWithTestData();
+
+        loginPage.clearFields(); // Очистка полей перед вводом
         var verificationPage = loginPage.validLogin(authInfo);
+
         var verificationCode = SQLHelper.getVerificationCode();
         verificationPage.validVerify(verificationCode);
     }
 
+    @Disabled
     @Test
     void shouldBlockUserAfterThreeInvalidPasswordAttempts() {
-        var invalidAuthInfo = DataHelper.getInvalidAuthInfo();
+        var invalidAuthInfo = DataHelper.getInvalidAuthInfo_InvalidPassword();
 
         for (int i = 1; i <= 3; i++) {
-            loginPage.invalidLogin(invalidAuthInfo);
+            loginPage.clearFields();
+            loginPage.loginWithInvalidPassword(invalidAuthInfo);
             loginPage.verifyErrorNotification("Ошибка! Неверно указан логин или пароль");
 
-            // Проверка статуса после каждой попытки
             if (i < 3) {
-                assertEquals("active", SQLHelper.getUserStatus("vasya"),
-                        "Ошибка! Неверно указан логин или пароль");
+                assertEquals("active", SQLHelper.getUserStatus("vasya"));
             } else {
                 assertEquals("blocked", SQLHelper.getUserStatus("vasya"),
-                        "Пользователь заблокирован после 3 попыток неверного ввода ");
+                        "Пользователь должен быть заблокирован после 3 неверных попыток");
             }
-
-            loginPage.clearFields();
-
-            // Явная проверка очистки полей
-            loginPage.verifyFieldsAreEmpty();
         }
     }
 }

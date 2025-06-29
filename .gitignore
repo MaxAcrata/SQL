@@ -7,7 +7,7 @@ build/
 caches/
 daemon/7.6/
 native/
-schema/
+
 
 # IntelliJ IDEA
 .idea/modules.xml
