@@ -31,7 +31,7 @@ public class BankLoginTest {
         new VerificationPage().validVerify(verificationCode);
     }
 
-    @Disabled
+    // @Disabled
     @Test
     void shouldBlockUserAfterThreeInvalidPasswordAttempts() {
         var invalidAuthInfo = DataHelper.getInvalidAuthInfo_InvalidPassword();
